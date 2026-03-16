@@ -1,12 +1,26 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
+const PLACEHOLDER = 'your_supabase_url'
+
+function getUrl() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  if (!url || url === PLACEHOLDER) return 'http://localhost:54321'
+  return url
+}
+
+function getAnonKey() {
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!key || key === 'your_anon_key') return 'placeholder-key'
+  return key
+}
+
 export async function createClient() {
   const cookieStore = await cookies()
 
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    getUrl(),
+    getAnonKey(),
     {
       cookies: {
         getAll() {
@@ -29,8 +43,9 @@ export async function createClient() {
 
 export async function createServiceClient() {
   const { createClient } = await import('@supabase/supabase-js')
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
   return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    getUrl(),
+    serviceKey && serviceKey !== 'your_service_role_key' ? serviceKey : 'placeholder-key'
   )
 }
