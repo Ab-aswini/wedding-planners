@@ -36,12 +36,20 @@ export default function TemplatesPage() {
                 <h3 className="text-lg font-semibold">{t.name}</h3>
                 <p className="text-sm text-accent mt-0.5">{t.category}</p>
                 <p className="text-sm text-muted mt-2">{t.description}</p>
-                <Link
-                  href="/signup"
-                  className="inline-block mt-4 text-sm text-accent hover:underline"
-                >
-                  Use this template &rarr;
-                </Link>
+                <div className="flex items-center gap-4 mt-4">
+                  <Link
+                    href={`/i/preview?template=${t.slug}`}
+                    className="text-sm text-accent hover:underline"
+                  >
+                    Live Preview &rarr;
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="text-sm text-muted hover:text-accent"
+                  >
+                    Use template
+                  </Link>
+                </div>
               </div>
             </div>
           ))}

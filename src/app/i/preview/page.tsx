@@ -3,13 +3,13 @@
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import TemplateRenderer from '@/components/templates/TemplateRenderer'
-import { getDefaultInviteData } from '@/lib/utils'
+import { getMockInviteData } from '@/lib/utils'
 import type { InviteData } from '@/lib/types'
 
 function PreviewContent() {
   const searchParams = useSearchParams()
   const templateSlug = searchParams.get('template') || 'city'
-  const [data, setData] = useState<InviteData>(getDefaultInviteData() as InviteData)
+  const [data, setData] = useState<InviteData>(getMockInviteData(templateSlug))
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
